@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <title>人车不符静默申诉</title>
+    <script type="text/javascript">
+        var screenWidth=window.screen.width;
+        document.getElementsByTagName('html')[0].style.fontSize=screenWidth/10+'px';
+    </script>
+    <style>
+        * {margin: 0; padding: 0;-webkit-appearance: none; //去掉浏览器默认样式}
+        ul,ol {list-style: none;}
+        input{outline:none;border: none;}
+        
+        html,body{margin: 0 auto;width: 100%;min-height: 100%;overflow-x: hidden;background-color: #ededed;}
+        body{font-size: 0.4rem;color: #333333;line-height: 150%;}
+        .contain{margin:0.533333rem 0 0 0.4rem; }
+        .welcome{margin-right: 0.133333rem;}
+        .require{margin-top: 0.266667rem;margin-bottom: 0.266667rem;font-size: 0.4rem;color: #ff5252;}
+        .title{padding: 0.4rem 0 0.266667rem 0.4rem;font-weight: normal;}
+        input::-webkit-input-placeholder,#reason::-webkit-input-placeholder{color: #888888;font-size: 0.4rem;}
+        .form ul{padding-left:0.4rem;border-top: 1px solid #dcdcdc;border-bottom: 1px solid #dcdcdc;background-color: #fff;}
+        .form li{line-height: 1.28rem;}
+        .form input{width:6.4rem;height: 1.00rem;font-size: 0.4rem;color: #333333;}
+        .form li:nth-child(n+2){border-top: 1px solid #dcdcdc;}
+        .form lable{display: inline-block;width: 2.466667rem;margin-right: 0.4rem;}
+        .form .orderids{display: inline-block;width:6.4rem;height: 2.00rem;font-size: 0.4rem;color: #333333;vertical-align: top;line-height: 0.68rem;}
+        .reason{width: 100%;height: 4.0rem;position: relative;padding-bottom:0.746667rem;border: 1px solid #dcdcdc;background-color: #fff;color: #888888;}
+        div.picBg{padding:.5rem 0; height:2rem;}
+        #reason{width: 100%;height: 100%;box-sizing: border-box;padding: 0.4rem;border: none;outline: none; resize : none;font-size: 0.4rem;}
+        #count_show{display: inline-block;position: absolute;right: 0.4rem;bottom: 0.266667rem}
+        #submit{width:9.2rem;height:1.28rem;line-height: 1.28rem;display: block;margin: 0.4rem auto;border-radius: 0.64rem;background-color: #ff5252;color: #fff;font-size: 0.4rem;}
+        #error{position: fixed;top: 0;left: 0;width:100%;line-height: 400%;background-color: #FFF9DB;color: #333333;display: none;text-align: center;}
+        .success{position: fixed;width: 100%;height: 100%;left: 0;top: 0;text-align: center;background-color: #ededed;display: none;}
+        .success .icon{width: 4.8rem;height: 4.8rem;margin-top: 2.666667rem;margin-bottom: 0.533333rem;}
+        .success .submited{font-size:0.533333rem;color: #333333;font-weight: bold;}
+        .success .des{margin-top: 0.266667rem;font-size: 0.4rem;color: #888888;line-height:150%; }
+        #backBtn{position: absolute;bottom: 0.4rem;width: 9.2rem;height: 1.28rem;border-radius: 0.64rem;background-color: #ff5252;color: #fff;font-size: 0.4rem;transform: translateX(-50%);-webkit-transform: translateX(-50%);}
+        .disabled{background-color: #ccc !important;color: #000 !important;}
+  
+	    .boxCont2 { position: relative; width: 2rem; height: 2rem; border: #dcdcdc 1px solid;  background: #fff; margin:0 0 20px 0.416667rem; float: left;}
+	    .phone { height: 100%; width: 100%; overflow: hidden;}
+        .phone input { opacity: 0; position: absolute; width: 100%; height: 100%; top: 0px; left: 0;}
+        .phone img { display: block; width: auto; height: 100%; margin: 0 auto;}
+        .phone img.img { height: 1rem; width: auto; margin: 20px auto;}
+	    .ntn { background-color: #666}
+        .uploadProgress { display: none; position: absolute; width: 100%; height: 100%; text-align: center;background-color: #fff; opacity: .5; line-height: 2rem; font-size: .5rem;}
+	    .boxCont2 .det { border-radius: 50%; background-color: #ff5252; width: .6rem; height: .6rem; line-height: .6rem; text-align: center; color: #fff; position: absolute; right: -0.35rem; top: -0.35rem; font-size: 1rem; display: none;}
+    </style>
+</head>
+<body>
+    <div class="contain">
+        <div class="welcome">尊敬的易到车主您好，请正确填写以下申诉信息，如有多个订单申诉，请分多次提交，谢谢您的配合！</div>
+        <div class="require">
+            <span>说明：</span>
+            <ul>
+                <li>1.不受理风控日期超过1个月的订单申诉。</li>
+                <li>2.订单只有1次申诉机会，驳回后无法再次申诉。</li>
+                <li>3.如果连续3个订单申诉被驳回，30天内不能再提交新的申诉。</li>
+            </ul>
+        </div>
+    </div>
+    <div class="form">
+        <h4 class="title">订单信息</h4>
+        <ul>
+            <li>
+                <lable for="tel">车主手机号</lable><input type="tel" id="tel" name="tel" placeholder ="请输入手机号">
+            </li>
+            <li>
+                <lable for="order_id">申诉订单号</lable>
+                <div  id="orderids" class="orderids">
+	                	<div>6487050131951600180;</div>
+	                	<div>6487050131951600201;</div>
+	                	<div>6487050131951600119。</div>
+                </div>
+                
+            </li>
+        </ul>
+        <h4 class="title">申诉理由</h4>
+        <div class="reason">
+            <textarea id="reason" placeholder="申诉理由，不少于100个字，请描述订单的完整过程" width='200'></textarea>
+            <div id="count_show"><span id="word_counts">0</span>/300</div>
+        </div>
+        <h4 class="title">图片举证 (可上传3张)</h4>
+        <div class="reason picBg">
+        <div class='boxCont2'>
+            <div class="det">-</div>
+            <div class='phone'>
+                <div class='uploadProgress'></div>
+                <input type="file" id="fileElem3" name="avatar" accept="image/*" >
+                <input type="hidden" name='identity_img_id' id="identity_img_id" value="">
+                <img class='img' name='identity_img_id' src="<{asset:media/g2/M02/10/04/rBEBP1hPli-ICujPAAAEVWaj5ZwAAGQ7AP_-5MAAARt612.png}>"/>
+            </div>
+        </div>
+        <div class='boxCont2'>
+            <div class="det">-</div>
+            <div class='phone'>
+                <div class='uploadProgress'></div>
+                <input type="file" id="fileElem4" name="avatar" accept="image/*" >
+                <input type="hidden" name='identity_back_img_id' id="identity_back_img_id" value="">
+                <img class='img' name='identity_back_img_id' src="<{asset:media/g2/M02/10/04/rBEBP1hPli-ICujPAAAEVWaj5ZwAAGQ7AP_-5MAAARt612.png}>"/>
+            </div>
+        </div>
+        <div class='boxCont2'>
+            <div class="det">-</div>
+            <div class='phone'>
+                <div class='uploadProgress'></div>
+                <input type="file" id="fileElem5" name="avatar" accept="image/*" >
+                <input type="hidden" name='identity_hand_img_id' id="identity_hand_img_id" value="">
+                <img class='img' name='identity_hand_img_id' src="<{asset:media/g2/M02/10/04/rBEBP1hPli-ICujPAAAEVWaj5ZwAAGQ7AP_-5MAAARt612.png}>"/>
+            </div>
+        </div>
+    </div>
+        <input type="button" id="submit" value="提交申诉" class="unabled">
+    </div>
+    <div id="error"></div>
+    <div class="success">
+        <img class="icon" src="<{asset:media/g2/M03/0E/13/rBEBP1gb7zqIBVUeAAA5ycywy4cAAFkxgCZjAMAADnh283.png}>" alt="申诉已提交"><br>
+        <div class="submited">申诉已提交</div>
+        <div class="des">
+            处理结果将在7个工作日内<br>
+            以短信的方式发送至您的手机
+        </div>
+        <input type="button" id="backBtn" value="返回">
+    </div>
+    <!--   -->
+    <!--<script type="text/javascript" src="jquery-2.0.0.min.js"></script> 
+    <script type="text/javascript" src="uploadFile.js"></script>-->
+    
+    <script src="<{asset:js/jquery/jquery-1.7.2.min.js}>"></script>
+    <script src="<{asset:js/mobile/uploadFile.src.js}>"></script>
+    <script src="<{asset:js/do/do.all.js}>"></script>
+    
+    <script>
+        $(function(){
+            $('#tel').on('keydown',function(e){
+                var keycode=e.keyCode;
+                if(keycode==8||(96<=keycode&&keycode<=105)||(48<=keycode&keycode<=57)){
+                    if ($(this).val().length>=11) {
+                        if (keycode==8) {return;}
+                        e.stopPropagation();
+                        e.preventDefault();
+                        return false;
+                    }
+                }else{
+                    e.stopPropagation();
+                    e.preventDefault();
+                    return false;
+                }
+            });
+            
+            $('#reason').on('input',function(){
+                $('#word_counts').text($(this).val().length);
+            });
+            $('#reason').on('keydown',function(e){
+                if ($(this).val().length>=300) {
+                    if(e.keyCode==8){
+                        return;
+                    }
+                    e.stopPropagation();
+                    e.preventDefault();
+                    return false;
+                }
+            });
+        
+            $('#tel,#reason').on('focus',function(){
+                $('#error').hide();
+            })
+            $('#submit').on('click',function(){
+                $('#error').hide();
+                var $tel=$('#tel'),
+                $order_id=$('#order_id'),
+                $reason=$('#reason');
+                if ($tel.val().trim().length<=0) {
+                    showError('请输入手机号');
+                    return false;
+                }
+                if(!(/^1(3|4|5|6|7|8)\d{9}$/.test($tel.val().trim()))){ 
+                    showError('手机号格式不正确');
+                    return false;
+                }
+                
+                
+                if ($reason.val().trim().length<=0){
+                    showError('请输入申诉理由');
+                    return false;
+                }
+                if ($reason.val().trim().length<100){
+                    showError('申诉理由不能少于100字');
+                    return false;
+                }
+                if ($reason.val().trim().length>300){
+                    showError('申诉理由不能多于300字');
+                    return false;
+                }
+                
+                if($('#identity_img_id').val() == '') {
+                    var img1 = '';
+                } else {
+                    var img1 = $('#identity_img_id').val() + ','
+                }
+                if($('#identity_back_img_id').val() == '') {
+                    var img2 = '';
+                } else {
+                    var img2 = $('#identity_back_img_id').val() + ',';
+                }
+                if($('#identity_hand_img_id').val() == '') {
+                    var img3 = '';
+                } else {
+                    var img3 = $('#identity_hand_img_id').val();
+                }
+                var imgText1 = img1 + img2 + img3;
+                
+                if (imgText1==""){
+                    showError('至少上传一张图');
+                    return false;
+                }
+                
+                $(this).attr('disabled',true).addClass('disabled');
+                setTimeout(function(){
+                    $('#submit').removeAttr('disabled').removeClass('disabled');
+                },5000);
+                
+                var data = {'order_id':$order_id.val().trim(),'driver_phone':$tel.val().trim(),'reason':$reason.val().trim(),pic_url : imgText1}
+                $.ajax({
+                    /*
+                    'order_id'     - 订单ID
+                    'driver_phone' - 司机手机号
+                    
+                    'reason'       - 申请原因*/
+                    type:'post',
+                    url:'https://driver-api.Yongche.com/Rcs/OrderComplaint',
+                    data:data,
+                    dataType:'json',
+                    success:function(data){
+                        if(data.msg.ret_code==200){
+                            console.log(data.msg.ret_msg);
+                            $('.success').show();
+                            $('.det').siblings('.phone').find('img').addClass('img').attr('src','<{asset:media/g1/M04/09/36/rBEAQ1awcn6IVoa4AAAOxxvSPLYAAD5YQNcuSAAAA7f441.png}>');
+                            $('.det').siblings('.phone').find('input').val('');
+                            $('.det').hide();
+                        }
+                        else{
+                            showError(data.msg.ret_msg);
+                        }
+                    },
+                    error:function(data){
+                        showError('系统异常，请刷新页面重试');
+                    }
+
+                });
+            });
+            $('#backBtn').on('click',function() {
+                $('.success').hide();
+                $('#tel,#order_id,#reason').val('');
+            });
+	         function showError(msg){
+                $('#error').text(msg).slideDown();
+            }
+        });
+           
+        </script>
+        <script type="text/javascript">
+	    //图片上传代码
+        var params = {
+            url: "/greencar/ajax/upload.php",
+            isWeiXinOrUC: function (){
+	            var ua = window.navigator.userAgent.toLowerCase();
+	            if(ua.match(/MicroMessenger/i) == 'micromessenger' || ua.indexOf('ucbrowser')>-1){
+	                return true;
+	            }else{
+	                return false;
+	            }
+	        },
+            filter: function(files) {
+            	var arrFiles = [];
+                var file = files[files.length-1];//不可多选，只有一个文件
+                if (file.type.indexOf("image") == 0 || /\.(gif|jpg|jpeg|png|bmp|GIF|JPG|JPEG|PNG|BMP)$/.test(file.name) || file.name.indexOf("image") != -1) {
+	                	var imgSize = 5*1024*1024;
+			        var imgText = '请上传小于5M的图片';
+			        if(this.isWeiXinOrUC()) {
+			            imgSize = 3*1024*1024;
+			            imgText = '请上传小于3M的图片';
+			        }
+                    if (file.size >= imgSize) {
+                		//清空file对象，否则上传同一张大图不会出发change事件
+                		$(this.fileInput).val("");
+                		alert(imgText)
+                      /*  $('.alertCont').html(imgText);
+                        $('.alert3').fadeIn();
+                        $('.alertBtn').on('click',function() {
+                            $('.alert3').fadeOut();
+                        })*/
+                    } else {
+                      $(this.fileInput).siblings('.uploadProgress').show().html('上传中');//压缩过程会显示上传中
+                      arrFiles.push(file);
+                    }
+                } else {
+                    alert('请上传PNG或JPG格式的正方形图标');
+                }
+                return arrFiles;
+            },
+            onSelect: function(files) {
+                if(!files[files.length-1]) { return false;}
+                var self = this;
+                var funAppendImage = function() {
+                    file = files[files.length-1];
+                    if (file) {
+                        var reader = new FileReader();
+                        reader.onload = function(e) {
+                            var $name = file.name;
+                            var suffix = $name.substr($name.lastIndexOf('.')+1);
+                            var baseUrlInitially = "image/"+ suffix +";";
+                            // 在htc手机型号下选取相册的照片的base64码缺乏“image/****;”需要判断并加上
+
+                            $(self.fileInput)
+                            		.siblings('img')
+                            		.removeClass('img')
+                            		.attr("src",e.target.result.replace(/(.{5})/,"$1"+baseUrlInitially));
+							//准备压缩图片，并上传
+							self.beforeCompress(e.target.result,function(basestr){
+								self.funUploadFile(basestr);
+							});
+
+                        }
+                        reader.readAsDataURL(file);
+                    } 
+                };
+                funAppendImage();       
+            },
+            beforeCompress:function(result, uploadCallback){
+            	var self = this;
+                var maxsize = 100 * 1024;
+                var img = new Image();
+                img.src = result;
+                //如果图片大小小于100kb，则直接上传
+                if (result.length <= maxsize){
+                    img = null;
+                    uploadCallback();//上传
+                    return;
+                }
+				//图片加载完毕之后进行压缩，然后上传
+                if (img.complete) {
+                    callback();
+                } else {
+                    img.onload = callback;
+                }
+                function callback() {
+                    var data = self.onCompress(img);//压缩
+                    uploadCallback(data);//上传
+                    img = null;
+                }          
+            },
+            onCompress:function (img) {
+            	//用于压缩图片的canvas
+                var canvas = document.createElement("canvas");
+                var ctx = canvas.getContext('2d');
+                //瓦片canvas
+                var tCanvas = document.createElement("canvas");
+                var tctx = tCanvas.getContext("2d");
+                
+                var initSize = img.src.length;
+                var width = img.width;
+                var height = img.height;
+                //如果图片大于四百万像素，计算压缩比并将大小压至400万以下
+                var ratio;
+                if ((ratio = width * height / 500000)>1) {
+                    ratio = Math.sqrt(ratio);
+                    width /= ratio;
+                    height /= ratio;
+                }else {
+                    ratio = 1;
+                }
+                canvas.width = width;
+                canvas.height = height;
+       			//铺底色
+                ctx.fillStyle = "#fff";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                //如果图片像素大于100万则使用瓦片绘制
+                var count;
+                if ((count = width * height / 1000000) > 1) {
+                    count = ~~(Math.sqrt(count)+1); //计算要分成多少块瓦片
+        				//计算每块瓦片的宽和高
+                    var nw = ~~(width / count);
+                    var nh = ~~(height / count);
+                    tCanvas.width = nw;
+                    tCanvas.height = nh;
+                    for (var i = 0; i < count; i++) {
+                        for (var j = 0; j < count; j++) {
+                            tctx.drawImage(img, i * nw * ratio, j * nh * ratio, nw * ratio, nh * ratio, 0, 0, nw, nh);
+                            ctx.drawImage(tCanvas, i * nw, j * nh, nw, nh);
+                        }
+                    }
+                } else {
+                    ctx.drawImage(img, 0, 0, width, height);
+                }
+                //进行最小压缩
+               	var ndata = canvas.toDataURL('image/jpg', 0.2);
+                /*console.log('压缩前：' + initSize);
+                console.log('压缩后：' + ndata.length);
+                console.log('压缩率：' + ~~(100 * (initSize - ndata.length) / initSize) + "%");*/
+                tCanvas.width = tCanvas.height = canvas.width = canvas.height = 0;
+                return ndata;
+            },
+            funUploadFile:function(basestr) {
+        		var self= this;
+        		var formdata = new FormData();
+        		if(basestr){
+            		//图片上传，将base64的图片转成二进制对象，塞进formdata上传
+            		var text = window.atob(basestr.split(",")[1]);
+	                var buffer = new Uint8Array(text.length);
+	                var pecent = 0 ;
+	                for (var i = 0; i < text.length; i++) {
+	                    buffer[i] = text.charCodeAt(i);
+	                }
+	                //获取blob对象的兼容性写法
+	                var blob = self.getBlob(buffer, "image/jpeg");
+	                var imgSrc = self.isWeiXinOrUC() ? self.fileFilter[0] : blob;
+	                formdata.append(self.type, imgSrc, self.fileFilter[0].name);
+                }else{
+                	formdata.append(self.type, self.fileFilter[0], self.fileFilter[0].name);
+                }
+   
+            	var xhr = new XMLHttpRequest();
+                
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4) {
+                    		if (xhr.status == 200) {
+	                        self.onSuccess(xhr.responseText);
+	                    }else{
+	                    		self.onFailure(xhr.responseText);
+	                    }
+                    }else{
+                    		console.log("not ready-->"+xhr.readyState);
+                    }
+                    // 上传成功与否都需将文件数组初始化
+                    self.fileFilter=[];
+                };
+                
+                //数据发送进度
+                /*xhr.upload.addEventListener('progress', function (e) {
+                    self.onProgress(e.loaded, e.total);
+                }, false);*/
+                xhr.upload.onprogress = function(e){
+                	self.onProgress(e.loaded, e.total);
+                }
+                xhr.open('post', self.url, true);
+                
+                xhr.send(formdata);
+            },
+            onProgress: function(loaded, total) {
+            		console.log(loaded+"-->"+total);
+                var eleProgress = $(this.fileInput).siblings('.uploadProgress'), percent = (loaded / total * 100).toFixed(2) + '%';
+                eleProgress.show().html(percent);
+            },
+            onSuccess: function(response) {
+        		console.log(JSON.parse(response))
+        		var self = this;
+        		var $fileInput = $(self.fileInput)
+                if($('.uploadProgress::visible').size() == 1) {
+                    $('.submit').removeClass('ntn').removeAttr('disable').html('提交申诉');
+                }
+	            
+                $fileInput.siblings('.uploadProgress').hide();
+                $fileInput.parent().siblings('.det').show();
+                $('input[name="'+self.type+'"]').val(JSON.parse(response).file_id);
+            },
+            onFailure: function(file) {
+                console.log('失败');
+                $('.uploadProgress').hide(); 
+                
+            },
+        	getBlob:function (buffer, format){// 获取blob对象的兼容性写法
+		        var Builder = window.WebKitBlobBuilder || window.MozBlobBuilder;
+		        if(Builder){
+		            var builder = new Builder;
+		            builder.append(buffer);
+		            return builder.getBlob(format);
+		        } else {
+		            return new window.Blob([ buffer ], {type: format});
+		        }
+		    }
+        }; 
+    </script>
+    <script type="text/javascript">
+        var identity_img_id = $.extend({},ZXXFILE, params,{
+          	myInit:function(){
+          		var self=this;
+          		$(".det")[0].addEventListener("click", function(e) { 
+          			self.fileFilter=[];
+          			$(this).siblings('.phone').find('img').addClass('img').attr('src','<{asset:media/g2/M02/10/04/rBEBP1hPli-ICujPAAAEVWaj5ZwAAGQ7AP_-5MAAARt612.png}>');
+	            		$(this).siblings('.phone').find('input').val('');
+	            		$(this).hide();
+          		}, false);
+          	},
+            type : 'identity_img_id',
+            fileInput: $("#fileElem3")[0],
+        });
+
+        var identity_back_img_id = $.extend({},ZXXFILE, params,{
+          	myInit:function(){
+          		var self=this;
+          		$(".det")[1].addEventListener("click", function(e) { 
+          			self.fileFilter=[];
+          			$(this).siblings('.phone').find('img').addClass('img').attr('src','<{asset:media/g2/M02/10/04/rBEBP1hPli-ICujPAAAEVWaj5ZwAAGQ7AP_-5MAAARt612.png}>');
+	            		$(this).siblings('.phone').find('input').val('');
+	            		$(this).hide();
+          		}, false);
+          	},
+            type : 'identity_back_img_id',
+            fileInput: $("#fileElem4")[0],
+        });
+
+        var identity_hand_img_id = $.extend({},ZXXFILE, params,{
+          	myInit:function(){
+          		var self=this;
+          		$(".det")[2].addEventListener("click", function(e) { 
+          			self.fileFilter=[];
+          			$(this).siblings('.phone').find('img').addClass('img').attr('src','<{asset:media/g2/M02/10/04/rBEBP1hPli-ICujPAAAEVWaj5ZwAAGQ7AP_-5MAAARt612.png}>');
+	            		$(this).siblings('.phone').find('input').val('');
+	            		$(this).hide();
+          		}, false);
+          	},
+            type : 'identity_hand_img_id',
+            fileInput: $("#fileElem5")[0],
+        });
+
+        identity_img_id.init();
+        identity_back_img_id.init();
+        identity_hand_img_id.init();
+        identity_img_id.myInit();
+        identity_back_img_id.myInit();
+        identity_hand_img_id.myInit();
+    </script>
+    </body>
+    </html>

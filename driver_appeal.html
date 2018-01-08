@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <title>易到-风控违规订单申诉</title>
+    <script type="text/javascript">
+        var screenWidth=window.screen.width;
+        document.getElementsByTagName('html')[0].style.fontSize=screenWidth/10+'px';
+    </script>
+    <style>
+        * {margin: 0; padding: 0;-webkit-appearance: none; //去掉浏览器默认样式}
+        ul,ol {list-style: none;}
+        input{outline:none;border: none;}
+        .clearfix:after{display: block;width: 0;height: 0;content: '.';clear: both;visibility: hidden;}
+        html,body{margin: 0 auto;width: 100%;min-height: 100%;overflow-x: hidden;background-color: #ededed;}
+        body{font-size: 0.4rem;color: #333333;line-height: 150%;}
+        .contain{margin:0.533333rem 0 0 0.4rem; }
+        .welcome{margin-right: 0.133333rem;}
+        .require{margin-top: 0.266667rem;margin-bottom: 0.266667rem;font-size: 0.4rem;color: #ff5252;}
+        .title{padding: 0.4rem 0 0.266667rem 0.4rem;font-weight: normal;}
+        input::-webkit-input-placeholder,#reason::-webkit-input-placeholder{color: #888888;font-size: 0.4rem;}
+        .form ul{padding-left:0.4rem;border-top: 1px solid #dcdcdc;border-bottom: 1px solid #dcdcdc;background-color: #fff;}
+        .form li{line-height: 1.28rem;}
+        .form input{width:6.4rem;height: 1.00rem;font-size: 0.4rem;color: #333333;}
+        .form li:nth-child(n+2){border-top: 1px solid #dcdcdc;}
+        .form lable{display: inline-block;width: 2.466667rem;margin-right: 0.4rem;}
+        .reason{width: 100%;height: 4.0rem;position: relative;padding-bottom:0.746667rem;border: 1px solid #dcdcdc;background-color: #fff;color: #888888;}
+        #reason{width: 100%;height: 100%;box-sizing: border-box;padding: 0.4rem;border: none;outline: none; resize : none;font-size: 0.4rem;}
+        #count_show{display: inline-block;position: absolute;right: 0.4rem;bottom: 0.266667rem}
+        #submit{width:9.2rem;height:1.28rem;line-height: 1.28rem;display: block;margin: 0.4rem auto;border-radius: 0.64rem;background-color: #ff5252;color: #fff;font-size: 0.4rem;}
+        #error{position: fixed;top: 0;left: 0;width:100%;line-height: 400%;background-color: #FFF9DB;color: #333333;display: none;text-align: center;}
+        .success{position: fixed;width: 100%;height: 100%;left: 0;top: 0;text-align: center;background-color: #ededed;display: none;}
+        .success .icon{width: 4.8rem;height: 4.8rem;margin-top: 2.666667rem;margin-bottom: 0.533333rem;}
+        .success .submited{font-size:0.533333rem;color: #333333;font-weight: bold;}
+        .success .des{margin-top: 0.266667rem;font-size: 0.4rem;color: #888888;line-height:150%; }
+        #backBtn{position: absolute;bottom: 0.4rem;width: 9.2rem;height: 1.28rem;border-radius: 0.64rem;background-color: #ff5252;color: #fff;font-size: 0.4rem;transform: translateX(-50%);-webkit-transform: translateX(-50%);}
+        .disabled{background-color: #ccc !important;color: #000 !important;}
+        /*日期选择*/
+        .date_ctrl,.gearDate{left:0;overflow:hidden;width:100%}.date_btn,.tooth{text-align:center}.gearDate{font-family:Helvetica Neue,Helvetica,Arial,sans-serif;font-size:10px;background-color:rgba(0,0,0,.2);display:block;position:fixed;top:0;height:100%;z-index:9900;-webkit-animation-fill-mode:both;animation-fill-mode:both}.date_ctrl{vertical-align:middle;background-color:#d5d8df;color:#000;margin:0;height:auto;position:absolute;bottom:0;z-index:9901;-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}.slideInUp{-webkit-animation:slideInUp .3s;animation:slideInUp .3s}@-webkit-keyframes slideInUp{from{-webkit-transform:translate3d(0,100%,0);transform:translate3d(0,100%,0)}to{-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}}@keyframes slideInUp{from{-webkit-transform:translate3d(0,100%,0);transform:translate3d(0,100%,0)}to{-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}}.date_roll,.datetime_roll,.time_roll,.ym_roll{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;width:100%;height:auto;overflow:hidden;background-color:transparent;-webkit-mask:-webkit-gradient(linear,0 50%,0 100%,from(#debb47),to(rgba(36,142,36,0)));-webkit-mask:-webkit-linear-gradient(top,#debb47 50%,rgba(36,142,36,0))}.date_roll>div,.datetime_roll>div,.time_roll>div,.ym_roll>div{font-size:2.3em;height:10em;float:left;background-color:transparent;position:relative;overflow:hidden;-webkit-box-flex:4;-webkit-flex:4;-ms-flex:4;flex:4}.date_roll>div .gear,.datetime_roll>div .gear,.time_roll>div .gear,.ym_roll>div .gear{width:100%;float:left;position:absolute;z-index:9902;margin-top:-4em}.date_roll_mask{-webkit-mask:-webkit-gradient(linear,0 40%,0 0,from(#debb47),to(rgba(36,142,36,0)));-webkit-mask:-webkit-linear-gradient(bottom,#debb47 50%,rgba(36,142,36,0));padding:0}.date_roll>div:nth-child(2){-webkit-box-flex:2;-webkit-flex:2;-ms-flex:2;flex:2}.date_roll>div:nth-child(1),.datetime_roll>div:nth-child(1){-webkit-box-flex:4;-webkit-flex:4;-ms-flex:4;flex:4}.datetime_roll>div:first-child,.datetime_roll>div:last-child{-webkit-box-flex:6;-webkit-flex:6;-ms-flex:6;flex:6}.date_grid{position:relative;top:4em;width:100%;height:2em;margin:0;box-sizing:border-box;z-index:0;border-top:1px solid #abaeb5;border-bottom:1px solid #abaeb5}.date_grid>div{color:#000;position:absolute;right:0;top:0;font-size:.8em;line-height:2.5em}.date_roll>div:nth-child(3) .date_grid>div{left:42%}.datetime_roll>div .date_grid>div{right:0}.datetime_roll>div:first-child .date_grid>div{left:auto;right:0}.datetime_roll>div:last-child .date_grid>div{left:50%}.time_roll>div:nth-child(1) .date_grid>div{right:1em}.ym_roll>div:nth-child(1) .date_grid>div{right:.1em}.time_roll>div .date_grid>div,.ym_roll>div .date_grid>div{right:5em}.date_btn{color:#0575f2;font-size:1.6em;line-height:1em;padding:.8em 1em}.date_btn_box:after,.date_btn_box:before{content:'';position:absolute;height:1px;width:100%;display:block;background-color:#96979b;z-index:15;-webkit-transform:scaleY(.33);transform:scaleY(.33)}.date_btn_box{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-webkit-justify-content:space-between;-ms-flex-pack:justify;justify-content:space-between;-webkit-box-align:stretch;-webkit-align-items:stretch;-ms-flex-align:stretch;align-items:stretch;background-color:#f1f2f4;position:relative}.date_btn_box:before{left:0;top:0;-webkit-transform-origin:50% 20%;transform-origin:50% 20%}.date_btn_box:after{left:0;bottom:0;-webkit-transform-origin:50% 70%;transform-origin:50% 70%}.date_roll>div:nth-child(1) .gear{text-indent:20%}.date_roll>div:nth-child(2) .gear{text-indent:-20%}.date_roll>div:nth-child(3) .gear{text-indent:-55%}.datetime_roll>div .gear{width:100%;text-indent:-25%}.datetime_roll>div:first-child .gear{text-indent:-10%}.datetime_roll>div:last-child .gear{text-indent:-50%}.time_roll>div .gear,.ym_roll>div .gear{width:100%;text-indent:-70%}.time_roll>div:nth-child(1) .gear,.ym_roll>div:nth-child(1) .gear{width:100%;text-indent:10%}.tooth{height:2em;line-height:2em}
+    </style>
+    <style>
+    .boxCont2 { position: relative; width: 2rem; height: 2rem; border: #dcdcdc 1px solid;  background: #fff; margin:0 0 20px 0.416667rem; float: left;}
+    .phone { height: 100%; width: 100%; overflow: hidden;}
+        .phone input { opacity: 0; position: absolute; width: 100%; height: 100%; top: 0px; left: 0;}
+        .phone img { display: block; width: auto; height: 100%; margin: 0 auto;}
+        .phone img.img { height: 1rem; width: auto; margin: 20px auto;}
+    .ntn { background-color: #666}
+        .uploadProgress { display: none; position: absolute; width: 100%; height: 100%; text-align: center;background-color: #fff; opacity: .5; line-height: 1rem; font-size: .5    rem;}
+    .boxCont2 .det { border-radius: 50%; background-color: #ff5252; width: .6rem; height: .6rem; line-height: .4rem; text-align: center; color: #fff; position: absolute; right: -0.35rem; top: -0.35rem; font-size: 1rem; display: none;}
+    </style>
+</head>
+<body>
+    <div class="contain">
+        <div class="welcome">尊敬的易到车主您好，请正确填写以下申诉信息，如有多个订单申诉，请分多次提交，谢谢您的配合！</div>
+        <div class="require">
+            <span>说明：</span>
+            <ul>
+                <li>1.不受理风控日期超过1个月的订单申诉。</li>
+                <li>2.订单只有1次申诉机会，驳回后无法再次申诉。</li>
+                <li>3.如果连续3个订单申诉被驳回，30天内不能再提交新的申诉。</li>
+            </ul>
+        </div>
+    </div>
+    <div class="form">
+        <h4 class="title">订单信息</h4>
+        <ul>
+            <li>
+                <lable for="tel">车主手机号</lable><input type="tel" id="tel" name="tel" placeholder ="请输入手机号">
+            </li>
+            <li>
+                <lable for="order_id">申诉订单号</lable><input type="tel" id="order_id" placeholder ="请输入要申诉的订单号">
+            </li>
+            <li>
+                <lable for="order_date">订单完成日期</lable><input type="text" id="order_date" readonly="" placeholder ="示例：2016-10-10">
+            </li>
+        </ul>
+        <h4 class="title">申诉理由</h4>
+        <div class="reason">
+            <textarea id="reason" placeholder="申诉理由，不少于50个字，请描述订单的完整过程" width='200'></textarea>
+            <div id="count_show"><span id="word_counts">0</span>/300</div>
+        </div>
+        <h4 class="title">图片举证 (可上传3张)</h4>
+        <div class="reason" style='padding:.5rem 0; height:2rem;'>
+        <div class='boxCont2'>
+            <div class="det">-</div>
+            <div class='phone'>
+                <div class='uploadProgress'></div>
+                <input type="file" id="fileElem3" name="avatar" accept="image/*" >
+                <input type="hidden" name='identity_img_id' id="identity_img_id" value="<?= isset($driverInfo['car_license_img_id']) ? $driverInfo['car_license_img_id'] : ''?>">
+                <img class='img' name='identity_img_id' src="<{asset:media/g2/M02/10/04/rBEBP1hPli-ICujPAAAEVWaj5ZwAAGQ7AP_-5MAAARt612.png}>"/>
+            </div>
+        </div>
+        <div class='boxCont2'>
+            <div class="det">-</div>
+            <div class='phone'>
+                <div class='uploadProgress'></div>
+                <input type="file" id="fileElem4" name="avatar" accept="image/*" >
+                <input type="hidden" name='identity_back_img_id' id="identity_back_img_id" value="<?= isset($driverInfo['identity_back_img_id']) ? $driverInfo['identity_back_img_id'] : ''?>">
+                <img class='img' name='identity_back_img_id' src="<{asset:media/g2/M02/10/04/rBEBP1hPli-ICujPAAAEVWaj5ZwAAGQ7AP_-5MAAARt612.png}>"/>
+            </div>
+        </div>
+        <div class='boxCont2'>
+            <div class="det">-</div>
+            <div class='phone'>
+                <div class='uploadProgress'></div>
+                <input type="file" id="fileElem5" name="avatar" accept="image/*" >
+                <input type="hidden" name='identity_hand_img_id' id="identity_hand_img_id" value="<?= isset($driverInfo['identity_hand_img_id']) ? $driverInfo['identity_hand_img_id'] : ''?>">
+                <img class='img' name='identity_hand_img_id' src="<{asset:media/g2/M02/10/04/rBEBP1hPli-ICujPAAAEVWaj5ZwAAGQ7AP_-5MAAARt612.png}>"/>
+            </div>
+        </div>
+    </div>
+        <input type="button" id="submit" value="提交申诉" class="unabled">
+    </div>
+    <div id="error"></div>
+    <div class="success">
+        <img class="icon" src="<{asset:media/g2/M03/0E/13/rBEBP1gb7zqIBVUeAAA5ycywy4cAAFkxgCZjAMAADnh283.png}>" alt="申诉已提交"><br>
+        <div class="submited">申诉已提交</div>
+        <div class="des">
+            处理结果将在7个工作日内<br>
+            以短信的方式发送至您的手机
+        </div>
+        <input type="button" id="backBtn" value="返回">
+    </div>
+    <!--    <script type="text/javascript" src="jquery.min.js"></script> -->
+    <script src="<{asset:js/jquery/jquery-1.7.2.min.js}>"></script>
+    <script src="<{asset:js/mobile/uploadFile.src.js}>"></script>
+    <script src="<{asset:js/do/do.all.js}>"></script>
+    <script>
+        window.LCalendar=(function(){var MobileCalendar=function(){this.gearDate;this.minY=1900;this.minM=1;this.minD=1;this.maxY=2099;this.maxM=12;this.maxD=31};MobileCalendar.prototype={init:function(params){this.type=params.type;this.trigger=document.querySelector(params.trigger);if(this.trigger.getAttribute("data-lcalendar")!=null){var arr=this.trigger.getAttribute("data-lcalendar").split(",");var minArr=arr[0].split("-");this.minY=~~minArr[0];this.minM=~~minArr[1];this.minD=~~minArr[2];var maxArr=arr[1].split("-");this.maxY=~~maxArr[0];this.maxM=~~maxArr[1];this.maxD=~~maxArr[2]}if(params.minDate){var minArr=params.minDate.split("-");this.minY=~~minArr[0];this.minM=~~minArr[1];this.minD=~~minArr[2]}if(params.maxDate){var maxArr=params.maxDate.split("-");this.maxY=~~maxArr[0];this.maxM=~~maxArr[1];this.maxD=~~maxArr[2]}this.bindEvent(this.type)},bindEvent:function(type){var _self=this;function popupDate(e){_self.gearDate=document.createElement("div");_self.gearDate.className="gearDate";_self.gearDate.innerHTML='<div class="date_ctrl slideInUp">'+'<div class="date_btn_box">'+'<div class="date_btn lcalendar_cancel">取消</div>'+'<div class="date_btn lcalendar_finish">确定</div>'+"</div>"+'<div class="date_roll_mask">'+'<div class="date_roll">'+"<div>"+'<div class="gear date_yy" data-datetype="date_yy"></div>'+'<div class="date_grid">'+"<div>年</div>"+"</div>"+"</div>"+"<div>"+'<div class="gear date_mm" data-datetype="date_mm"></div>'+'<div class="date_grid">'+"<div>月</div>"+"</div>"+"</div>"+"<div>"+'<div class="gear date_dd" data-datetype="date_dd"></div>'+'<div class="date_grid">'+"<div>日</div>"+"</div>"+"</div>"+"</div>"+"</div>"+"</div>";document.body.appendChild(_self.gearDate);dateCtrlInit();var lcalendar_cancel=_self.gearDate.querySelector(".lcalendar_cancel");lcalendar_cancel.addEventListener("touchstart",closeMobileCalendar);var lcalendar_finish=_self.gearDate.querySelector(".lcalendar_finish");lcalendar_finish.addEventListener("touchstart",finishMobileDate);var date_yy=_self.gearDate.querySelector(".date_yy");var date_mm=_self.gearDate.querySelector(".date_mm");var date_dd=_self.gearDate.querySelector(".date_dd");date_yy.addEventListener("touchstart",gearTouchStart);date_mm.addEventListener("touchstart",gearTouchStart);date_dd.addEventListener("touchstart",gearTouchStart);date_yy.addEventListener("touchmove",gearTouchMove);date_mm.addEventListener("touchmove",gearTouchMove);date_dd.addEventListener("touchmove",gearTouchMove);date_yy.addEventListener("touchend",gearTouchEnd);date_mm.addEventListener("touchend",gearTouchEnd);date_dd.addEventListener("touchend",gearTouchEnd)}function dateCtrlInit(){var date=new Date();var dateArr={yy:date.getFullYear(),mm:date.getMonth(),dd:date.getDate()-1};if(/^\d{4}-\d{1,2}-\d{1,2}$/.test(_self.trigger.value)){rs=_self.trigger.value.match(/(^|-)\d{1,4}/g);dateArr.yy=rs[0]-_self.minY;dateArr.mm=rs[1].replace(/-/g,"")-1;dateArr.dd=rs[2].replace(/-/g,"")-1}else{dateArr.yy=dateArr.yy-_self.minY}_self.gearDate.querySelector(".date_yy").setAttribute("val",dateArr.yy);_self.gearDate.querySelector(".date_mm").setAttribute("val",dateArr.mm);_self.gearDate.querySelector(".date_dd").setAttribute("val",dateArr.dd);setDateGearTooth()}function popupYM(e){_self.gearDate=document.createElement("div");_self.gearDate.className="gearDate";_self.gearDate.innerHTML='<div class="date_ctrl slideInUp">'+'<div class="date_btn_box">'+'<div class="date_btn lcalendar_cancel">取消</div>'+'<div class="date_btn lcalendar_finish">确定</div>'+"</div>"+'<div class="date_roll_mask">'+'<div class="ym_roll">'+"<div>"+'<div class="gear date_yy" data-datetype="date_yy"></div>'+'<div class="date_grid">'+"<div>年</div>"+"</div>"+"</div>"+"<div>"+'<div class="gear date_mm" data-datetype="date_mm"></div>'+'<div class="date_grid">'+"<div>月</div>"+"</div>"+"</div>"+"</div>"+"</div>"+"</div>";document.body.appendChild(_self.gearDate);ymCtrlInit();var lcalendar_cancel=_self.gearDate.querySelector(".lcalendar_cancel");lcalendar_cancel.addEventListener("touchstart",closeMobileCalendar);var lcalendar_finish=_self.gearDate.querySelector(".lcalendar_finish");lcalendar_finish.addEventListener("touchstart",finishMobileYM);var date_yy=_self.gearDate.querySelector(".date_yy");var date_mm=_self.gearDate.querySelector(".date_mm");date_yy.addEventListener("touchstart",gearTouchStart);date_mm.addEventListener("touchstart",gearTouchStart);date_yy.addEventListener("touchmove",gearTouchMove);date_mm.addEventListener("touchmove",gearTouchMove);date_yy.addEventListener("touchend",gearTouchEnd);date_mm.addEventListener("touchend",gearTouchEnd)}function ymCtrlInit(){var date=new Date();var dateArr={yy:date.getFullYear(),mm:date.getMonth()};if(/^\d{4}-\d{1,2}$/.test(_self.trigger.value)){rs=_self.trigger.value.match(/(^|-)\d{1,4}/g);dateArr.yy=rs[0]-_self.minY;dateArr.mm=rs[1].replace(/-/g,"")-1}else{dateArr.yy=dateArr.yy-_self.minY}_self.gearDate.querySelector(".date_yy").setAttribute("val",dateArr.yy);_self.gearDate.querySelector(".date_mm").setAttribute("val",dateArr.mm);
+            setDateGearTooth()}function popupDateTime(e){_self.gearDate=document.createElement("div");_self.gearDate.className="gearDatetime";_self.gearDate.innerHTML='<div class="date_ctrl slideInUp">'+'<div class="date_btn_box">'+'<div class="date_btn lcalendar_cancel">取消</div>'+'<div class="date_btn lcalendar_finish">确定</div>'+"</div>"+'<div class="date_roll_mask">'+'<div class="datetime_roll">'+"<div>"+'<div class="gear date_yy" data-datetype="date_yy"></div>'+'<div class="date_grid">'+"<div>年</div>"+"</div>"+"</div>"+"<div>"+'<div class="gear date_mm" data-datetype="date_mm"></div>'+'<div class="date_grid">'+"<div>月</div>"+"</div>"+"</div>"+"<div>"+'<div class="gear date_dd" data-datetype="date_dd"></div>'+'<div class="date_grid">'+"<div>日</div>"+"</div>"+"</div>"+"<div>"+'<div class="gear time_hh" data-datetype="time_hh"></div>'+'<div class="date_grid">'+"<div>时</div>"+"</div>"+"</div>"+"<div>"+'<div class="gear time_mm" data-datetype="time_mm"></div>'+'<div class="date_grid">'+"<div>分</div>"+"</div>"+"</div>"+"</div>"+"</div>"+"</div>";document.body.appendChild(_self.gearDate);dateTimeCtrlInit();var lcalendar_cancel=_self.gearDate.querySelector(".lcalendar_cancel");lcalendar_cancel.addEventListener("touchstart",closeMobileCalendar);var lcalendar_finish=_self.gearDate.querySelector(".lcalendar_finish");lcalendar_finish.addEventListener("touchstart",finishMobileDateTime);var date_yy=_self.gearDate.querySelector(".date_yy");var date_mm=_self.gearDate.querySelector(".date_mm");var date_dd=_self.gearDate.querySelector(".date_dd");var time_hh=_self.gearDate.querySelector(".time_hh");var time_mm=_self.gearDate.querySelector(".time_mm");date_yy.addEventListener("touchstart",gearTouchStart);date_mm.addEventListener("touchstart",gearTouchStart);date_dd.addEventListener("touchstart",gearTouchStart);time_hh.addEventListener("touchstart",gearTouchStart);time_mm.addEventListener("touchstart",gearTouchStart);date_yy.addEventListener("touchmove",gearTouchMove);date_mm.addEventListener("touchmove",gearTouchMove);date_dd.addEventListener("touchmove",gearTouchMove);time_hh.addEventListener("touchmove",gearTouchMove);time_mm.addEventListener("touchmove",gearTouchMove);date_yy.addEventListener("touchend",gearTouchEnd);date_mm.addEventListener("touchend",gearTouchEnd);date_dd.addEventListener("touchend",gearTouchEnd);time_hh.addEventListener("touchend",gearTouchEnd);time_mm.addEventListener("touchend",gearTouchEnd)}function dateTimeCtrlInit(){var date=new Date();var dateArr={yy:date.getFullYear(),mm:date.getMonth(),dd:date.getDate()-1,hh:date.getHours(),mi:date.getMinutes()};if(/^\d{4}-\d{1,2}-\d{1,2}\s\d{2}:\d{2}$/.test(_self.trigger.value)){rs=_self.trigger.value.match(/(^|-|\s|:)\d{1,4}/g);dateArr.yy=rs[0]-_self.minY;dateArr.mm=rs[1].replace(/-/g,"")-1;dateArr.dd=rs[2].replace(/-/g,"")-1;dateArr.hh=parseInt(rs[3].replace(/\s0?/g,""));dateArr.mi=parseInt(rs[4].replace(/:0?/g,""))}else{dateArr.yy=dateArr.yy-_self.minY}_self.gearDate.querySelector(".date_yy").setAttribute("val",dateArr.yy);_self.gearDate.querySelector(".date_mm").setAttribute("val",dateArr.mm);_self.gearDate.querySelector(".date_dd").setAttribute("val",dateArr.dd);setDateGearTooth();_self.gearDate.querySelector(".time_hh").setAttribute("val",dateArr.hh);_self.gearDate.querySelector(".time_mm").setAttribute("val",dateArr.mi);setTimeGearTooth()}function popupTime(e){_self.gearDate=document.createElement("div");_self.gearDate.className="gearDate";_self.gearDate.innerHTML='<div class="date_ctrl slideInUp">'+'<div class="date_btn_box">'+'<div class="date_btn lcalendar_cancel">取消</div>'+'<div class="date_btn lcalendar_finish">确定</div>'+"</div>"+'<div class="date_roll_mask">'+'<div class="time_roll">'+"<div>"+'<div class="gear time_hh" data-datetype="time_hh"></div>'+'<div class="date_grid">'+"<div>时</div>"+"</div>"+"</div>"+"<div>"+'<div class="gear time_mm" data-datetype="time_mm"></div>'+'<div class="date_grid">'+"<div>分</div>"+"</div>"+"</div>"+"</div>"+"</div>"+"</div>";document.body.appendChild(_self.gearDate);timeCtrlInit();var lcalendar_cancel=_self.gearDate.querySelector(".lcalendar_cancel");lcalendar_cancel.addEventListener("touchstart",closeMobileCalendar);var lcalendar_finish=_self.gearDate.querySelector(".lcalendar_finish");lcalendar_finish.addEventListener("touchstart",finishMobileTime);var time_hh=_self.gearDate.querySelector(".time_hh");var time_mm=_self.gearDate.querySelector(".time_mm");time_hh.addEventListener("touchstart",gearTouchStart);time_mm.addEventListener("touchstart",gearTouchStart);time_hh.addEventListener("touchmove",gearTouchMove);time_mm.addEventListener("touchmove",gearTouchMove);time_hh.addEventListener("touchend",gearTouchEnd);time_mm.addEventListener("touchend",gearTouchEnd)}function timeCtrlInit(){var d=new Date();var e={hh:d.getHours(),mm:d.getMinutes()};if(/^\d{2}:\d{2}$/.test(_self.trigger.value)){rs=_self.trigger.value.match(/(^|:)\d{2}/g);e.hh=parseInt(rs[0].replace(/^0?/g,""));e.mm=parseInt(rs[1].replace(/:0?/g,""))}_self.gearDate.querySelector(".time_hh").setAttribute("val",e.hh);
+            _self.gearDate.querySelector(".time_mm").setAttribute("val",e.mm);setTimeGearTooth()}function setDateGearTooth(){var passY=_self.maxY-_self.minY+1;var date_yy=_self.gearDate.querySelector(".date_yy");var itemStr="";if(date_yy&&date_yy.getAttribute("val")){var yyVal=parseInt(date_yy.getAttribute("val"));for(var p=0;p<=passY-1;p++){itemStr+="<div class='tooth'>"+(_self.minY+p)+"</div>"}date_yy.innerHTML=itemStr;var top=Math.floor(parseFloat(date_yy.getAttribute("top")));if(!isNaN(top)){top%2==0?(top=top):(top=top+1);top>8&&(top=8);var minTop=8-(passY-1)*2;top<minTop&&(top=minTop);date_yy.style["-webkit-transform"]="translate3d(0,"+top+"em,0)";date_yy.setAttribute("top",top+"em");yyVal=Math.abs(top-8)/2;date_yy.setAttribute("val",yyVal)}else{date_yy.style["-webkit-transform"]="translate3d(0,"+(8-yyVal*2)+"em,0)";date_yy.setAttribute("top",8-yyVal*2+"em")}}else{return}var date_mm=_self.gearDate.querySelector(".date_mm");if(date_mm&&date_mm.getAttribute("val")){itemStr="";var mmVal=parseInt(date_mm.getAttribute("val"));var maxM=11;var minM=0;if(yyVal==passY-1){maxM=_self.maxM-1}if(yyVal==0){minM=_self.minM-1}for(var p=0;p<maxM-minM+1;p++){itemStr+="<div class='tooth'>"+(minM+p+1)+"</div>"}date_mm.innerHTML=itemStr;if(mmVal>maxM){mmVal=maxM;date_mm.setAttribute("val",mmVal)}else{if(mmVal<minM){mmVal=maxM;date_mm.setAttribute("val",mmVal)}}date_mm.style["-webkit-transform"]="translate3d(0,"+(8-(mmVal-minM)*2)+"em,0)";date_mm.setAttribute("top",8-(mmVal-minM)*2+"em")}else{return}var date_dd=_self.gearDate.querySelector(".date_dd");if(date_dd&&date_dd.getAttribute("val")){itemStr="";var ddVal=parseInt(date_dd.getAttribute("val"));var maxMonthDays=calcDays(yyVal,mmVal);var maxD=maxMonthDays-1;var minD=0;if(yyVal==passY-1&&_self.maxM==mmVal+1){maxD=_self.maxD-1}if(yyVal==0&&_self.minM==mmVal+1){minD=_self.minD-1}for(var p=0;p<maxD-minD+1;p++){itemStr+="<div class='tooth'>"+(minD+p+1)+"</div>"}date_dd.innerHTML=itemStr;if(ddVal>maxD){ddVal=maxD;date_dd.setAttribute("val",ddVal)}else{if(ddVal<minD){ddVal=minD;date_dd.setAttribute("val",ddVal)}}date_dd.style["-webkit-transform"]="translate3d(0,"+(8-(ddVal-minD)*2)+"em,0)";date_dd.setAttribute("top",8-(ddVal-minD)*2+"em")}else{return}}function setTimeGearTooth(){var time_hh=_self.gearDate.querySelector(".time_hh");if(time_hh&&time_hh.getAttribute("val")){var i="";var hhVal=parseInt(time_hh.getAttribute("val"));for(var g=0;g<=23;g++){i+="<div class='tooth'>"+g+"</div>"}time_hh.innerHTML=i;time_hh.style["-webkit-transform"]="translate3d(0,"+(8-hhVal*2)+"em,0)";time_hh.setAttribute("top",8-hhVal*2+"em")}else{return}var time_mm=_self.gearDate.querySelector(".time_mm");if(time_mm&&time_mm.getAttribute("val")){var i="";var mmVal=parseInt(time_mm.getAttribute("val"));for(var g=0;g<=59;g++){i+="<div class='tooth'>"+g+"</div>"}time_mm.innerHTML=i;time_mm.style["-webkit-transform"]="translate3d(0,"+(8-mmVal*2)+"em,0)";time_mm.setAttribute("top",8-mmVal*2+"em")}else{return}}function calcDays(year,month){if(month==1){year+=_self.minY;if((year%4==0&&year%100!=0)||(year%400==0&&year%4000!=0)){return 29}else{return 28}}else{if(month==3||month==5||month==8||month==10){return 30}else{return 31}}}function gearTouchStart(e){e.preventDefault();var target=e.target;while(true){if(!target.classList.contains("gear")){target=target.parentElement}else{break}}clearInterval(target["int_"+target.id]);target["old_"+target.id]=e.targetTouches[0].screenY;target["o_t_"+target.id]=(new Date()).getTime();var top=target.getAttribute("top");if(top){target["o_d_"+target.id]=parseFloat(top.replace(/em/g,""))}else{target["o_d_"+target.id]=0}target.style.webkitTransitionDuration=target.style.transitionDuration="0ms"}function gearTouchMove(e){e.preventDefault();var target=e.target;while(true){if(!target.classList.contains("gear")){target=target.parentElement}else{break}}target["new_"+target.id]=e.targetTouches[0].screenY;target["n_t_"+target.id]=(new Date()).getTime();var f=(target["new_"+target.id]-target["old_"+target.id])*30/window.innerHeight;target["pos_"+target.id]=target["o_d_"+target.id]+f;target.style["-webkit-transform"]="translate3d(0,"+target["pos_"+target.id]+"em,0)";target.setAttribute("top",target["pos_"+target.id]+"em");if(e.targetTouches[0].screenY<1){gearTouchEnd(e)}}function gearTouchEnd(e){e.preventDefault();var target=e.target;while(true){if(!target.classList.contains("gear")){target=target.parentElement}else{break}}var flag=(target["new_"+target.id]-target["old_"+target.id])/(target["n_t_"+target.id]-target["o_t_"+target.id]);if(Math.abs(flag)<=0.2){target["spd_"+target.id]=(flag<0?-0.08:0.08)}else{if(Math.abs(flag)<=0.5){target["spd_"+target.id]=(flag<0?-0.16:0.16)}else{target["spd_"+target.id]=flag/2}}if(!target["pos_"+target.id]){target["pos_"+target.id]=0}if(flag.toString()=="NaN"){e.preventDefault();e.stopPropagation();return false}rollGear(target)}function rollGear(target){var d=0;var stopGear=false;function setDuration(){target.style.webkitTransitionDuration=target.style.transitionDuration="200ms";
+            stopGear=true}var passY=_self.maxY-_self.minY+1;clearInterval(target["int_"+target.id]);target["int_"+target.id]=setInterval(function(){var pos=target["pos_"+target.id];var speed=target["spd_"+target.id]*Math.exp(-0.03*d);pos+=speed;if(Math.abs(speed)>0.1){}else{var b=Math.round(pos/2)*2;pos=b;setDuration()}if(pos>8){pos=8;setDuration()}switch(target.dataset.datetype){case"date_yy":var minTop=8-(passY-1)*2;if(pos<minTop){pos=minTop;setDuration()}if(stopGear){var gearVal=Math.abs(pos-8)/2;setGear(target,gearVal);clearInterval(target["int_"+target.id])}break;case"date_mm":var date_yy=_self.gearDate.querySelector(".date_yy");var yyVal=parseInt(date_yy.getAttribute("val"));var maxM=11;var minM=0;if(yyVal==passY-1){maxM=_self.maxM-1}if(yyVal==0){minM=_self.minM-1}var minTop=8-(maxM-minM)*2;if(pos<minTop){pos=minTop;setDuration()}if(stopGear){var gearVal=Math.abs(pos-8)/2+minM;setGear(target,gearVal);clearInterval(target["int_"+target.id])}break;case"date_dd":var date_yy=_self.gearDate.querySelector(".date_yy");var date_mm=_self.gearDate.querySelector(".date_mm");var yyVal=parseInt(date_yy.getAttribute("val"));var mmVal=parseInt(date_mm.getAttribute("val"));var maxMonthDays=calcDays(yyVal,mmVal);var maxD=maxMonthDays-1;var minD=0;if(yyVal==passY-1&&_self.maxM==mmVal+1){maxD=_self.maxD-1}if(yyVal==0&&_self.minM==mmVal+1){minD=_self.minD-1}var minTop=8-(maxD-minD)*2;if(pos<minTop){pos=minTop;setDuration()}if(stopGear){var gearVal=Math.abs(pos-8)/2+minD;setGear(target,gearVal);clearInterval(target["int_"+target.id])}break;case"time_hh":if(pos<-38){pos=-38;setDuration()}if(stopGear){var gearVal=Math.abs(pos-8)/2;setGear(target,gearVal);clearInterval(target["int_"+target.id])}break;case"time_mm":if(pos<-110){pos=-110;setDuration()}if(stopGear){var gearVal=Math.abs(pos-8)/2;setGear(target,gearVal);clearInterval(target["int_"+target.id])}break;default:}target["pos_"+target.id]=pos;target.style["-webkit-transform"]="translate3d(0,"+pos+"em,0)";target.setAttribute("top",pos+"em");d++},30)}function setGear(target,val){val=Math.round(val);target.setAttribute("val",val);if(/date/.test(target.dataset.datetype)){setDateGearTooth()}else{setTimeGearTooth()}}function closeMobileCalendar(e){e.preventDefault();var evt;try{evt=new CustomEvent("input")}catch(e){evt=document.createEvent("Event");evt.initEvent("input",true,true)}_self.trigger.dispatchEvent(evt);document.body.removeChild(_self.gearDate);_self.gearDate=null}function finishMobileDate(e){var passY=_self.maxY-_self.minY+1;var date_yy=parseInt(Math.round(_self.gearDate.querySelector(".date_yy").getAttribute("val")));var date_mm=parseInt(Math.round(_self.gearDate.querySelector(".date_mm").getAttribute("val")))+1;date_mm=date_mm>9?date_mm:"0"+date_mm;var date_dd=parseInt(Math.round(_self.gearDate.querySelector(".date_dd").getAttribute("val")))+1;date_dd=date_dd>9?date_dd:"0"+date_dd;_self.trigger.value=(date_yy%passY+_self.minY)+"-"+date_mm+"-"+date_dd;closeMobileCalendar(e)}function finishMobileYM(e){var passY=_self.maxY-_self.minY+1;var date_yy=parseInt(Math.round(_self.gearDate.querySelector(".date_yy").getAttribute("val")));var date_mm=parseInt(Math.round(_self.gearDate.querySelector(".date_mm").getAttribute("val")))+1;date_mm=date_mm>9?date_mm:"0"+date_mm;_self.trigger.value=(date_yy%passY+_self.minY)+"-"+date_mm;closeMobileCalendar(e)}function finishMobileDateTime(e){var passY=_self.maxY-_self.minY+1;var date_yy=parseInt(Math.round(_self.gearDate.querySelector(".date_yy").getAttribute("val")));var date_mm=parseInt(Math.round(_self.gearDate.querySelector(".date_mm").getAttribute("val")))+1;date_mm=date_mm>9?date_mm:"0"+date_mm;var date_dd=parseInt(Math.round(_self.gearDate.querySelector(".date_dd").getAttribute("val")))+1;date_dd=date_dd>9?date_dd:"0"+date_dd;var time_hh=parseInt(Math.round(_self.gearDate.querySelector(".time_hh").getAttribute("val")));time_hh=time_hh>9?time_hh:"0"+time_hh;var time_mm=parseInt(Math.round(_self.gearDate.querySelector(".time_mm").getAttribute("val")));time_mm=time_mm>9?time_mm:"0"+time_mm;_self.trigger.value=(date_yy%passY+_self.minY)+"-"+date_mm+"-"+date_dd+" "+(time_hh.length<2?"0":"")+time_hh+(time_mm.length<2?":0":":")+time_mm;closeMobileCalendar(e)}function finishMobileTime(e){var time_hh=parseInt(Math.round(_self.gearDate.querySelector(".time_hh").getAttribute("val")));time_hh=time_hh>9?time_hh:"0"+time_hh;var time_mm=parseInt(Math.round(_self.gearDate.querySelector(".time_mm").getAttribute("val")));time_mm=time_mm>9?time_mm:"0"+time_mm;_self.trigger.value=(time_hh.length<2?"0":"")+time_hh+(time_mm.length<2?":0":":")+time_mm;closeMobileCalendar(e)}_self.trigger.addEventListener("click",{"ym":popupYM,"date":popupDate,"datetime":popupDateTime,"time":popupTime}[type])}};return MobileCalendar})();      
+        </script>
+    <script>
+        $(function(){
+            var calendar = new LCalendar();
+            calendar.init({
+	            'trigger': '#order_date',//标签id
+	            'type': 'date',//date 调出日期选择 datetime 调出日期时间选择 time 调出时间选择 ym 调出年月选择
+	            'minDate':'2000-1-1',//最小日期 注意：该值会覆盖标签内定义的日期范围
+	            'maxDate':'2020-12-12'//最大日期 注意：该值会覆盖标签内定义的日期范围
+	        });
+            $('#tel').on('keydown',function(e){
+                var keycode=e.keyCode;
+                if(keycode==8||(96<=keycode&&keycode<=105)||(48<=keycode&keycode<=57)){
+                    if ($(this).val().length>=11) {
+                        if (keycode==8) {return;}
+                        e.stopPropagation();
+                        e.preventDefault();
+                        return false;
+                    }
+                }else{
+                    e.stopPropagation();
+                    e.preventDefault();
+                    return false;
+                }
+            });
+            $('#order_id').on('keydown',function(e){
+                var keycode=e.keyCode;
+                if(keycode==8||(96<=keycode&&keycode<=105)||(48<=keycode&keycode<=57)){
+                    if ($(this).val().length>=19) {
+                        if (keycode==8) {return;}
+                        e.stopPropagation();
+                        e.preventDefault();
+                        return false;
+                    }
+                }else{
+                    e.stopPropagation();
+                    e.preventDefault();
+                    return false;
+                }
+            });
+            $('#reason').on('input',function(){
+                $('#word_counts').text($(this).val().length);
+            });
+            $('#reason').on('keydown',function(e){
+                if ($(this).val().length>=300) {
+                    if(e.keyCode==8){
+                        return;
+                    }
+                    e.stopPropagation();
+                    e.preventDefault();
+                    return false;
+                }
+            });
+            
+            $('#tel,#order_id,#order_date,#reason').on('focus',function(){
+                $('#error').hide();
+            })
+            $('#submit').on('click',function(){
+                $('#error').hide();
+                var $tel=$('#tel'),
+                $order_id=$('#order_id'),
+                $order_date=$('#order_date'),
+                $reason=$('#reason');
+                if ($tel.val().trim().length<=0) {
+                    showError('请输入手机号');
+                    //$tel.focus();
+                    return false;
+                }
+                if(!(/^1(3|4|5|6|7|8)\d{9}$/.test($tel.val().trim()))){ 
+                    showError('手机号格式不正确')
+                    //$tel.focus();
+                    return false;
+                }
+                if ($order_id.val().trim().length<=0) {
+                    showError('请输入申诉订单号')
+                    //$order_id.focus();
+                    return false;
+                }
+                if(/[^\d]/.test($order_id.val().trim())){
+                    showError('请输入正确的订单号')
+                    //$order_id.focus();
+                    return false;
+                }
+                if ($order_id.val().trim().length>19) {
+                    showError('订单号不能超过19位')
+                    //$order_id.focus();
+                    return false;
+                }
+                if ($order_date.val().trim().length<10) {
+                    showError('请输入订单完成日期')
+                    //$order_date.focus();
+                    return false;
+                }
+                if ($reason.val().trim().length<=0){
+                    showError('请输入申诉理由')
+                    //$reason.focus();
+                    return false;
+                }
+                if ($reason.val().trim().length<50){
+                    showError('申诉理由不能少于50字')
+                    //$reason.focus();
+                    return false;
+                }
+                if ($reason.val().trim().length>300){
+                    showError('申诉理由不能多于300字')
+                    //$reason.focus();
+                    return false;
+                }
+                $(this).attr('disabled',true).addClass('disabled');
+                setTimeout(function(){
+                    $('#submit').removeAttr('disabled').removeClass('disabled');
+                },5000);
+                if($('#identity_img_id').val() == '') {
+                    var img1 = '';
+                } else {
+                    var img1 = $('#identity_img_id').val() + ','
+                }
+                if($('#identity_back_img_id').val() == '') {
+                    var img2 = '';
+                } else {
+                    var img2 = $('#identity_back_img_id').val() + ',';
+                }
+                if($('#identity_hand_img_id').val() == '') {
+                    var img3 = '';
+                } else {
+                    var img3 = $('#identity_hand_img_id').val();
+                }
+                var imgText1 = img1 + img2 + img3;
+                var data = {'order_id':$order_id.val().trim(),'driver_phone':$tel.val().trim(),'end_time':$order_date.val().trim(),'reason':$reason.val().trim(),pic_url : imgText1}
+                $.ajax({
+                    /*
+                    'order_id'     - 订单ID
+                    'driver_phone' - 司机手机号
+                    'end_time'     - 订单完成日期 (format: '2016/11/03')
+                    'reason'       - 申请原因*/
+                    type:'post',
+                    url:'https://driver-api.Yongche.com/Rcs/OrderComplaint',
+                    data:data,
+                    dataType:'json',
+                    success:function(data){
+                        if(data.msg.ret_code==200){
+                            console.log(data.msg.ret_msg);
+                            $('.success').show();
+                            $('.det').siblings('.phone').find('img').addClass('img').attr('src','<{asset:media/g1/M04/09/36/rBEAQ1awcn6IVoa4AAAOxxvSPLYAAD5YQNcuSAAAA7f441.png}>');
+                            $('.det').siblings('.phone').find('input').val('');
+                            $('.det').hide();
+                        }
+                        else{
+                            showError(data.msg.ret_msg);
+                        }
+                    },
+                    error:function(data){
+                        showError('系统异常，请刷新页面重试');
+                    }
+
+                });
+            });
+            
+            $('#backBtn').on('click',function() {
+                $('.success').hide();
+                $('#tel,#order_id,#order_date,#reason').val('');
+            });
+            
+            function showError(msg){
+	            $('#error').text(msg).slideDown();
+	        }
+        });
+        
+    </script>
+    <script type="text/javascript">
+	    htext = '提交申诉';
+	    //图片上传代码
+	    var llStr = '';
+        function ll() {
+            isWeiXin() ? llStr = 1 : llStr = 0;
+            if(llStr == 1) {return false} 
+            navigator.userAgent.indexOf('UCBrowser') > -1 ? llStr = 1 : llStr = 0;
+        }
+        ll();
+        function isWeiXin(){
+            var ua = window.navigator.userAgent.toLowerCase();
+            if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        var fileList = '';
+        var imgSize = 512000000;
+        var imgText = '请上传小于5M的图片';
+        if(!!llStr) {
+            imgSize = 312000000;
+            imgText = '请上传小于3M的图片';
+        }
+
+        
+        var params = {
+            fileInput: document.querySelectorAll("#fileElem")[0],
+            //dragDrop: $("#fileDragArea").get(0),
+            //upButton: $("#fileSubmit").get(0),
+            url: "/greencar/ajax/upload.php?type=photo",
+            filter: function(files) {
+                var self = this;
+                var arrFiles = [];
+                for (var i = 0, file; file = files[i]; i++) {
+                     fileList = file;
+                     if (file.type.indexOf("image") == 0 || /\.(gif|jpg|jpeg|png|bmp|GIF|JPG|JPEG|PNG|BMP)$/.test(file.name) || file.name.indexOf("image") != -1) {
+                        if (file.size >= imgSize) {
+                            $('.alertCont').html(imgText);
+                            $('.alert3').fadeIn();
+                            $('.alertBtn').on('click',function() {
+                                $('.alert3').fadeOut();
+                            })
+                        } else {
+                          arrFiles.push(file);
+                          $(self.fileInput).siblings('.img').removeClass('img')
+                          $(self.fileInput).siblings('.uploadProgress').show().html('上传中');
+                        }
+                    } else {
+                        alert('请上传PNG或JPG格式的正方形图标');
+                    }
+                    return arrFiles
+                }
+            },
+            onSelect: function(files) {
+                if(!files[files.length-1]) { return false;}
+                var self = this;
+                if (fileList.size >= imgSize) {
+                    if($('.uploadProgress::visible').size() == 0) {
+                        $('.btn').removeClass('ntn').removeAttr('disable').html(htext);
+                    }
+                } else {
+                   $('.btn').addClass('ntn').attr('disable','disable').html('正在上传图片……');
+                }
+                
+                var funAppendImage = function() {
+                    file = files[files.length-1];
+                    if (file) {
+                        var imgs;
+                        var reader = new FileReader();
+                        reader.onload = function(e) {
+                            var $name = file.name;
+                            var suffix = $name.substr($name.lastIndexOf('.')+1);
+                            var baseUrlInitially = "image/"+ suffix +";";
+                            // str = str.replace(/(.{5})/,"$1"+baseUrlInitially);
+                            // 在htc手机型号下选取相册的照片的base64码缺乏“image/****;”需要判断并加上
+                                if(e.target.result.indexOf(baseUrlInitially) > 0){
+                                    $(self.fileInput).siblings('img').attr("src",e.target.result.replace(/(.{5})/,"$1"+baseUrlInitially));
+                                }else{
+                                     $(self.fileInput).siblings('img').attr("src",e.target.result.replace(/(.{5})/,"$1"+baseUrlInitially));
+                                };
+
+                                //    用于压缩图片的canvas
+                                var canvas = document.createElement("canvas");
+                                var ctx = canvas.getContext('2d');
+                                //    瓦片canvas
+                                var tCanvas = document.createElement("canvas");
+                                var tctx = tCanvas.getContext("2d");
+                                var maxsize = 1 * 1024;
+
+                                var result = this.result;
+                                var img = new Image();
+                                imgs = img;
+                                img.src = result;
+                               
+                                //如果图片大小小于100kb，则直接上传
+                                if (result.length <= maxsize){
+                                    img = null;
+                                    return;
+                                }
+                				//图片加载完毕之后进行压缩，然后上传
+                                if (img.complete) {
+                                    callback();
+                                } else {
+                                    img.onload = callback;
+                                }
+                                function callback() {
+                                    var data = compress(img);
+                                    //upload(data, file.type, $(li));
+                                    img = null;
+                                }
+                              
+                                //使用canvas对大图片进行压缩
+                                function compress(img) {
+                                    var initSize = img.src.length;
+                                    var width = img.width;
+                                    var height = img.height;
+                                    //如果图片大于四百万像素，计算压缩比并将大小压至400万以下
+                                    var ratio;
+                                    if ((ratio = width * height / 500000)>1) {
+                                        ratio = Math.sqrt(ratio);
+                                        width /= ratio;
+                                        height /= ratio;
+                                    }else {
+                                        ratio = 1;
+                                    }
+                                    canvas.width = width;
+                                    canvas.height = height;
+                            		//铺底色
+                                    ctx.fillStyle = "#fff";
+                                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                                    //如果图片像素大于100万则使用瓦片绘制
+                                    var count;
+                                    if ((count = width * height / 1000000) > 1) {
+                                        count = ~~(Math.sqrt(count)+1); //计算要分成多少块瓦片
+                            			//计算每块瓦片的宽和高
+                                        var nw = ~~(width / count);
+                                        var nh = ~~(height / count);
+                                        tCanvas.width = nw;
+                                        tCanvas.height = nh;
+                                        for (var i = 0; i < count; i++) {
+                                            for (var j = 0; j < count; j++) {
+                                                tctx.drawImage(img, i * nw * ratio, j * nh * ratio, nw * ratio, nh * ratio, 0, 0, nw, nh);
+                                                ctx.drawImage(tCanvas, i * nw, j * nh, nw, nh);
+                                            }
+                                        }
+                                    } else {
+                                        ctx.drawImage(img, 0, 0, width, height);
+                                    }
+                                    //进行最小压缩
+                                   	var ndata = canvas.toDataURL('image/jpg', 0.2);
+                                    /*console.log('压缩前：' + initSize);
+                                    console.log('压缩后：' + ndata.length);
+                                    console.log('压缩率：' + ~~(100 * (initSize - ndata.length) / initSize) + "%");*/
+                                    tCanvas.width = tCanvas.height = canvas.width = canvas.height = 0;
+                                    upload(ndata,'image/jpeg',$(self.fileInput))
+                                    //console.log(ndata)
+                                    //return ndata;
+                                }
+
+                            	//图片上传，将base64的图片转成二进制对象，塞进formdata上传
+                                function upload(  basestr, type, $li) {
+                                    var text = window.atob(basestr.split(",")[1]);
+                                    var buffer = new Uint8Array(text.length);
+                                    var pecent = 0 , loop = null;
+
+                                    for (var i = 0; i < text.length; i++) {
+                                        buffer[i] = text.charCodeAt(i);
+                                    }
+                                    var blob = getBlob(buffer, type);
+
+                                    var xhr = new XMLHttpRequest();
+                                    var formdata = new FormData();
+                                    var imgSrc = blob;
+                                    if(!!llStr) {imgSrc = files[files.length-1]};
+                                    formdata.append(self.type, imgSrc, files[files.length-1].name);
+                                    
+                                    
+                                    var nlocal = '/greencar/ajax/upload.php'
+        
+                                    xhr.open('post', nlocal);
+                                    
+                                    xhr.onreadystatechange = function () {
+                                        if (xhr.readyState == 4 && xhr.status == 200) {
+                                            if($('.uploadProgress::visible').size() == 1) {
+                                                $('.submit').removeClass('ntn').removeAttr('disable').html(htext);
+                                            }
+                                            console.log($li)
+                                            console.log(JSON.parse(xhr.response))
+                                            $li.siblings('.uploadProgress').hide();
+                                            $li.parent().siblings('.det').show();
+                                            $('input[name="'+self.type+'"]').val(JSON.parse(xhr.response).file_id);
+                                            
+                                            clearInterval(loop);
+                                        }
+                                    };
+                                    
+                                    //数据发送进度，前50%展示该进度
+                                    xhr.upload.addEventListener('progress', function (e) {
+                                        if (loop) return;
+                                        pecent = ~~(100 * e.loaded / e.total)-1;
+                                        $li.siblings('.uploadProgress').show().html(pecent + "%");
+                                        
+                                        if (pecent >= 99) {
+                                           clearInterval(loop)
+                                        }
+                                        
+                                    }, false);
+                                    //数据后50%用模拟进度
+                                    function mockProgress() {
+                                        if (loop) return;
+                                        loop = setInterval(function () {
+                                            pecent++;  
+                                            $li.siblings('.uploadProgress').show().html(pecent + "%");
+                                            if (pecent <= 99) {
+                                                clearInterval(loop);
+                                            }
+                                        }, 100)
+                                        
+                                    }
+                                    xhr.send(formdata);
+                                }
+                                // 获取blob对象的兼容性写法
+                                function getBlob(buffer, format){
+                                    var Builder = window.WebKitBlobBuilder || window.MozBlobBuilder;
+                                    if(Builder){
+                                        var builder = new Builder;
+                                        builder.append(buffer);
+                                        return builder.getBlob(format);
+                                    } else {
+                                        return new window.Blob([ buffer ], {type: format});
+                                    }
+                                }
+                            //self.funUploadFile();
+                        }
+                        reader.readAsDataURL(file);
+                    } 
+                };
+                funAppendImage();       
+            },
+             onProgress: function(file, loaded, total) {
+                var self = this;
+                var eleProgress = $(self.fileInput).siblings('.uploadProgress'), percent = (loaded / total * 100).toFixed(2) + '%';
+                eleProgress.show().html(percent);
+                setTimeout(function() {
+                    //$(self.fileInput).siblings('.uploadProgress').hide();
+                },1000)
+            },
+            onSuccess: function(file, response) {
+                $('.btn').removeClass('ntn').removeAttr('disable').html(htext);
+                $('.uploadProgress').hide();
+                //$(self.fileInput).siblings('img').removeClass('img')
+                if(response.code=="200"){
+                    
+                }
+                //$("#uploadInf").append("<p>上传成功，图片地址是：" + response + "</p>");
+            },
+            onFailure: function(file) {
+                console.log('失败')
+                $('.btn').removeClass('ntn').removeAttr('disable').html(htext);
+                $('.uploadProgress').hide();
+                //$("#uploadInf").append("<p>图片" + file.name + "上传失败！</p>");  
+                
+            },
+            onComplete: function() {
+                console.log('完成')
+                $('.btn').removeClass('ntn').removeAttr('disable').html(htext);
+                $('.uploadProgress').hide();
+                //提交按钮隐藏
+                //$("#fileSubmit").hide();
+                //file控件value置空
+                //$(".fileImage").val("");
+                //$("#uploadInf").append("<p>当前图片全部上传完毕，可继续添加上传。</p>");
+            }
+            
+        };
+    </script>
+    <script type="text/javascript">
+    var loop;
+     Do('c.common_h5',function(){
+        var local = window.location.search;
+        var appNum = <?= isset($isAppVersion) ? (int)$isAppVersion : 0 ?>;
+        $('input[type=file]').on('click',function() {
+            var id = $(this).attr('id');
+            if(appNum) {
+                if(id == 'fileElem') {
+                    window.location.href = 'yongche://updatePicture?callback=uploadHeadImage&'+id+''; 
+                } else if(id == 'fileElem1') {
+                    window.location.href = 'yongche://updateDriverLicense?callback=uploadHeadImage&'+id+'';
+                } else if(id == 'fileElem2') {
+                    window.location.href = 'yongche://updateDriverNumber?callback=uploadHeadImage&'+id+'';
+                } else {
+                    window.location.href = 'yongche://updateDriverNumber?callback=uploadHeadImage&'+id+'';
+                }
+                return false;
+            }
+        })
+
+     })
+
+
+         function uploadHeadImage(codei,file_id,url,id) {
+
+           eval('var loop' + id);
+           _id = '#' + id;
+           if(codei == file_id) {
+                var pecent = 0;
+                $(_id).siblings(".uploadProgress").show();
+                eval('loop' + id + ' = setInterval(function () {pecent++;$(_id).siblings(".uploadProgress").html(pecent + "%");if (pecent >= 99) {clearInterval(loop'+id+');}}, 50)')
+           } else if(codei == 'failure') {
+                clearInterval(eval('loop' + id));
+                $(id).siblings('.uploadProgress').html("0%").hide();
+           } else if(codei == 'select') {
+                clearInterval(eval('loop' + id));
+                $(id).siblings('.uploadProgress').html("0%").hide();
+           } else {
+                if(codei == 200) {
+                     clearInterval(eval('loop' + id));
+                     $(_id).siblings('.uploadProgress').html("100%").hide();
+                     $(_id).siblings('img').attr('src',url);
+                     $(_id).siblings('input[type=hidden]').val(file_id);
+                     $(_id).parent().siblings('.det').show();
+                } else {
+                    clearInterval(eval('loop' + id));
+                    $(_id).siblings('.uploadProgress').html("0%").hide();
+                    alert('抱歉，上传失败！请重新上传。');
+                }
+           } 
+            
+         }
+        $('.boxCont2 .det').on('click',function() {
+            $(this).siblings('.phone').find('img').addClass('img').attr('src','<{asset:media/g2/M02/10/04/rBEBP1hPli-ICujPAAAEVWaj5ZwAAGQ7AP_-5MAAARt612.png}>');
+            $(this).siblings('.phone').find('input').val('');
+            $(this).hide();
+        })
+    </script>
+    <script type="text/javascript">
+
+        var identity_img_id = $.extend({},ZXXFILE, params,{
+            type : 'identity_img_id',
+            fileInput: document.querySelectorAll("#fileElem3")[0],
+        });
+
+        var identity_back_img_id = $.extend({},ZXXFILE, params,{
+            type : 'identity_back_img_id',
+            fileInput: document.querySelectorAll("#fileElem4")[0],
+        });
+
+        var identity_hand_img_id = $.extend({},ZXXFILE, params,{
+            type : 'identity_hand_img_id',
+            fileInput: document.querySelectorAll("#fileElem5")[0],
+        });
+
+        identity_img_id.init();
+        identity_back_img_id.init();
+        identity_hand_img_id.init();
+    </script>
+    </body>
+    </html>
